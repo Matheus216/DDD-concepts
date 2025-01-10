@@ -1,0 +1,24 @@
+# Imagem base para execução
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+EXPOSE 5005 
+
+# Imagem base para build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["InvestimentApp.csproj", "./"]
+RUN dotnet restore "InvestimentApp.csproj"
+COPY . .
+RUN dotnet build "InvestimentApp.csproj" -c Debug -o /app/build
+
+# Publicar a aplicação
+FROM build AS publish
+RUN dotnet publish "InvestimentApp.csproj" -c Debug -o /app/publish
+
+# Finalizar com o ambiente base
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "InvestimentApp.dll"]
