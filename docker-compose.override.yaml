@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  yourproject:
+    ports:
+      - "5000:80"   # Porta HTTP
+      - "5005:5005" # Porta para depuração
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
+    volumes:
+      - ./InvestimentApp:/app:cached
