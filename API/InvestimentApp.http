@@ -1,6 +1,6 @@
-@InvestimentApp_HostAddress = http://localhost:5037
+@InvestimentApp_HostAddress = http://localhost:32768
 
-GET {{InvestimentApp_HostAddress}}/weatherforecast/
+GET {{InvestimentApp_HostAddress}}/api/Transaction/
 Accept: application/json
 
 ###
